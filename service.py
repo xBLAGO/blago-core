@@ -1,1 +1,0 @@
-# BTC/RUB price oracle service
