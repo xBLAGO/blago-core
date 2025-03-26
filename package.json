@@ -1,11 +1,13 @@
 {
   "name": "blago-core",
   "version": "1.0.0",
+  "description": "BLAGO smart contracts and infrastructure",
   "scripts": {
-    "build": "echo Build",
+    "build": "echo Build scripts will be added later",
     "test": "node tests/xBLAGO_test.js"
   },
   "dependencies": {
-    "@tonclient/core": "^1.0.0"
+    "@tonclient/core": "^1.0.0",
+    "@tonclient/lib-node": "^1.0.0"
   }
 }
