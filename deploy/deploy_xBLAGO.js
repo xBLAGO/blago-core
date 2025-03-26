@@ -1,0 +1,1 @@
+// Deploy script for xBLAGO contract

@@ -1,0 +1,11 @@
+{
+  "name": "blago-core",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo Build",
+    "test": "node tests/xBLAGO_test.js"
+  },
+  "dependencies": {
+    "@tonclient/core": "^1.0.0"
+  }
+}

@@ -1,0 +1,1 @@
+// Test xBLAGO token contract functionality
