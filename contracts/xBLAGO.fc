@@ -1,2 +1,51 @@
-;; xBLAGO Token Contract (simplified for demo)
-;; Functions: mint, transfer, burn
+;; xBLAGO Token Contract
+
+int get_total_supply() {
+  return get_data(0);
+}
+
+int get_balance(address addr) {
+  dict balances = get_data(2);
+  return dict_get_default(balances, addr, 0);
+}
+
+void transfer(address to, int amount) {
+  address sender = get_caller();
+  dict balances = get_data(2);
+  int sender_balance = dict_get_default(balances, sender, 0);
+  int recipient_balance = dict_get_default(balances, to, 0);
+
+  require(sender_balance >= amount, 101);
+
+  balances = dict_set(balances, sender, sender_balance - amount);
+  balances = dict_set(balances, to, recipient_balance + amount);
+
+  set_data(2, balances);
+}
+
+void mint(address to, int amount) {
+  require(get_caller() == get_data(1), 100); ;; Only owner can mint
+
+  dict balances = get_data(2);
+  int balance = dict_get_default(balances, to, 0);
+  balances = dict_set(balances, to, balance + amount);
+
+  int total = get_data(0);
+  set_data(0, total + amount);
+  set_data(2, balances);
+}
+
+() recv(int msg_type, cell in_msg, slice in_slice) {
+  if (msg_type == 0) {
+    int op = in_slice~load_uint(32);
+    if (op == 1) {
+      address to = in_slice~load_msg_addr();
+      int amount = in_slice~load_coins();
+      transfer(to, amount);
+    } else if (op == 2) {
+      address to = in_slice~load_msg_addr();
+      int amount = in_slice~load_coins();
+      mint(to, amount);
+    }
+  }
+}

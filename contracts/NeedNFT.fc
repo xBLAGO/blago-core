@@ -1,2 +1,24 @@
-;; NeedNFT Contract (simplified for demo)
-;; Functions: create_need, transfer_nft
+;; NeedNFT Contract
+
+address get_owner() {
+  return get_data(0);
+}
+
+cell get_metadata() {
+  return get_data(1);
+}
+
+void transfer(address new_owner) {
+  require(get_caller() == get_data(0), 100);
+  set_data(0, new_owner);
+}
+
+() recv(int msg_type, cell in_msg, slice in_slice) {
+  if (msg_type == 0) {
+    int op = in_slice~load_uint(32);
+    if (op == 1) {
+      address new_owner = in_slice~load_msg_addr();
+      transfer(new_owner);
+    }
+  }
+}
